@@ -18,9 +18,9 @@
     <!-- iCheck -->
     <link rel="stylesheet" href="{{ asset('style/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <!-- JQVMap -->
-    <link rel="stylesheet" href="{{ asset('style/plugins/jqvmap/jqvmap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/style/plugins/jqvmap/jqvmap.min.css') }}">
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('style/dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/style/dist/css/adminlte.min.css') }}">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{ asset('style/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     <!-- Daterange picker -->
@@ -68,7 +68,6 @@
                     </div>
                 </div>
             </form>
-
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <a href="{{url('logout')}}" class="text-gray">Log Out</a>
@@ -89,7 +88,7 @@
                             alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Admin</a>
+                        <a href="#" class="d-block">Employee</a>
                     </div>
                 </div>
 
@@ -113,6 +112,22 @@
                                 </p>
                             </a>
                         </li>
+                        <li class="nav-item ">
+                            <a href="{{url('employee/order')}}" class="nav-link ">
+                                <i class="nav-icon fas fa-bars"></i>
+                                <p>
+                                    Order
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="{{url('employee/customer')}}" class="nav-link ">
+                                <i class="nav-icon fas fa-people-arrows"></i>
+                                <p>
+                                    Customer
+                                </p>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -132,9 +147,9 @@
     <!-- ./wrapper -->
 
     <!-- jQuery -->
-    <script src="{{ asset('style/plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('/style/plugins/jquery/jquery.min.js') }}"></script>
     <!-- jQuery UI 1.11.4 -->
-    <script src="{{ asset('style/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('/style/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
     $.widget.bridge('uibutton', $.ui.button)
@@ -144,7 +159,7 @@
     <!-- ChartJS -->
     <script src="{{ asset('style/plugins/chart.js/Chart.min.js') }}"></script>
     <!-- Sparkline -->
-    <script src="{{ asset('style/plugins/sparklines/sparkline.js') }}"></script>
+    <script src="{{ asset('/style/plugins/sparklines/sparkline.js') }}"></script>
     <!-- JQVMap -->
     <script src="{{ asset('style/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
     <script src="{{ asset('style/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
@@ -165,10 +180,12 @@
     <script src="{{ asset('style/dist/js/pages/dashboard.js') }}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('style/dist/js/demo.js') }}"></script>
-    <!-- Datepicker -->
+    {{-- bootstrap modal--}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <!-- Datepicker -->  
     <script src="{{ asset('style/plugins/bootstrap-datepicker-master/dist/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('style/plugins/bootstrap-datepicker-master/js/bootstrap-datepicker.js') }}"></script>
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
         $(function() {
             $(".datepicker").datepicker({
                 format: 'yyyy-mm-dd',
@@ -186,9 +203,63 @@
                 minView: 0,
                 maxView: 1,
                 forceParse: 0
-    });
+            });
         });
-        </script>
+
+        $(function () {
+            $('.datetimepicker').datetimepicker();
+        });
+    </script> --}}
+    <script>
+        $(document).ready(function() {
+
+            $(".variasi").click(function() {
+                $(".variasi1").toggle();
+                $(".variasi2    ").toggle();
+                $(".variasioff").hide();
+                $(".variasi").hide();
+            });
+
+         });
+         function addRow() {
+            var no = parseInt($('#numbRows').val());
+            var html = '';
+
+            $('#numbRows').val(no + 1);
+
+            html += '<div id="rowContent' + $('#numbRows').val() + '">';
+            html += ' <label for="pilihanVariasi" class="col-sm-4 col-form-label">Pilihan Produk ' + $('#numbRows')
+                .val() + '</label>';
+            html += '<div class="d-md-flex">';
+            html += '<div class="col-sm-4">' + '<select class="form-control" id="product" name="product[]">' +
+                '<option value="">Product</option>' +
+                '@foreach($product as $p)' +
+                '<option value="{{$p->product_id}}">{{$p->product_name}}</option>' +
+                '@endforeach' +
+                '</select>' + '</div>';
+            html += '<div class="col-sm-4">' +
+                '<input type="number" class="form-control lbl" name="qty[]" placeholder="Jumlah">' +
+                '</div>';
+            html += '<button type="button" onclick="removeRow(' + $('#numbRows').val() +
+                ')" class="close m-1" data-dismiss="alert" aria-label="Close">' +
+                '<span aria-hidden="true">&times;</span>' +
+                '</button>';
+            html += '</div>';
+            html += '</div>';
+
+            $('#rowDinamis').append(html);
+        }
+
+        function removeRow(no) {
+
+            var cek = parseInt($('#numbRows').val());
+            if (cek != 0) {
+                $('#numbRows').val(cek - 1);
+            }
+            $('#rowContent' + no).remove();
+        }
+
+    </script>
 </body>
 
 </html>

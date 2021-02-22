@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades;
+use App\Models\Customer;
 use App\Models\product;
-use Illuminate\Pagination\Paginator;
+use Illuminate\Http\Request;
 
-
-class ProductsController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,22 +15,13 @@ class ProductsController extends Controller
      */
     public function index(Request $request)
     {
+        $product = product::all();
         if($request->has('cari')){
-            $product = product::where('product_name','LIKE','%'.$request->cari.'%')->get()->simplePaginate(5);
+            $customer = Customer::where('customer','LIKE','%'.$request->cari.'%')->get()->simplePaginate(5);
         }else{
-            $product = product::paginate(5);
+            $customer = Customer::paginate(5);
         }
-        return view("Admin.Products.index", compact('product'));
-    }
-
-    public function indexEmp(Request $request)
-    {
-        if($request->has('cari')){
-            $product = product::where('product_name','LIKE','%'.$request->cari.'%')->get()->simplePaginate(5);
-        }else{
-            $product = product::paginate(5);
-        }
-        return view("Employee.Products.index", compact('product'));
+        return view("Employee.Customers.index", compact('customer','product'));
     }
 
     /**
@@ -54,20 +43,21 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'product_name' => 'required',
-            'price'=> 'required'
+            'customer_name' => 'required',
+            'address'=> 'required',
+            'city'=> 'required'
         ]);
-        product::create($request->all());
-        return redirect('/admin/product')->with('status','data berhasil di Simpan!');
+        Customer::create($request->all());
+        return redirect('/employee/customer')->with('status','data berhasil di Simpan!');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Customer $customer)
     {
         //
     }
@@ -75,27 +65,27 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Customer $customer)
     {
-        
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         if($request->isMethod('post')){
-            $product = $request->all();
+            $customer = $request->all();
 
-            product::where(['product_id'=>$id])->update(['product_name'=>$product['product_name'],'price'=>$product['price']]);
+            Customer::where(['customer_id'=>$id])->update(['customer_name'=>$customer['customer_name'],'address'=>$customer['address'],'city'=>$customer['city']]);
             return redirect()->back()->with('status','Data Berhasil di ubah');
         }
     }
@@ -103,12 +93,12 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        product::destroy($id);
-        return redirect('/admin/product')->with('status', 'Data berhasil di Hapus!');
+        Customer::destroy($id);
+        return redirect('/employee/customer')->with('status', 'Data berhasil di Hapus!');
     }
 }

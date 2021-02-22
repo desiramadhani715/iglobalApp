@@ -7,6 +7,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\SalesController;
 
 
 /*
@@ -30,11 +32,19 @@ Route::group(['middleware'=>['auth']], function(){
         Route::get('admin', [AdminController::class, 'index']);
         Route::get('admin/product', [ProductsController::class, 'index']);
         Route::post('admin/product', [ProductsController::class, 'store']);
+        Route::delete('product/{product_id}', [ProductsController::class, 'destroy']);
+        Route::match(['get','post'], 'product/edit/{product_id}', [ProductsController::class, 'update']);
+        Route::get('admin/sales', [SalesController::class, 'index']);
     });
     Route::group(['middleware'=>['Cek_Login:employee']], function(){
         Route::get('employee', [EmployeeController::class, 'index']);
         Route::get('employee/product', [ProductsController::class, 'indexEmp']);
-        Route::get('employee/order', [OrderController::class, 'indexEmp']);
+        Route::get('employee/order', [OrderController::class, 'index']);
+        Route::post('employee/order', [OrderController::class, 'store']);
+        Route::get('employee/customer', [CustomerController::class, 'index']);
+        Route::post('employee/customer',[CustomerController::class, 'store']);
+        Route::delete('customer/{customer_id}',[CustomerController::class, 'destroy']);
+        Route::match(['get','post'], 'customer/edit/{customer_id}', [CustomerController::class, 'update']);
     });
 });
 

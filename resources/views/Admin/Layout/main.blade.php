@@ -68,13 +68,18 @@
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
+                    <!-- Modal -->
+
                 </div>
+                
             </form>
+            
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <a href="{{url('logout')}}" class="text-gray">Log Out</a>
             </ul>
+            
         </nav>
         <!-- /.navbar -->
 
@@ -91,7 +96,7 @@
                             alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="{{url('/admin')}}" class="d-block">IGlobalApp</a>
+                        <a href="{{url('/admin')}}" class="d-block">Admin</a>
                     </div>
                 </div>
 
@@ -112,6 +117,15 @@
                                 <i class="nav-icon fas fa-folder"></i>
                                 <p>
                                     Product
+                                </p>
+                            </a>
+                        </li>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="{{url('admin/sales')}}" class="nav-link ">
+                                <i class="nav-icon fas fa-file-invoice"></i>
+                                <p>
+                                    Sales
                                 </p>
                             </a>
                         </li>
@@ -167,7 +181,7 @@
     <script src="{{ asset('style/dist/js/pages/dashboard.js') }}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('style/dist/js/demo.js') }}"></script>
-    {{-- bootstrap --}}
+    {{-- bootstrap modal--}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <!-- Datepicker -->
     <script src="{{ asset('style/plugins/bootstrap-datepicker-master/dist/js/bootstrap-datepicker.min.js') }}"></script>

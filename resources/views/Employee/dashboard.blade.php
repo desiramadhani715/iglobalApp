@@ -1,6 +1,6 @@
 @extends('Employee/Layout/main')
 
-@section('title','Dashboard')
+@section('title','Employee IGlobalApp')
 
 @section('content')
 <div class="content-wrapper">

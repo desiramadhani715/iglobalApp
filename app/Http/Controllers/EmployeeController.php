@@ -8,6 +8,6 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        return view('Employee/dashboard');
+        return view('Employee/dashboard',['product' => $this->getProduct()]);
     }
 }
